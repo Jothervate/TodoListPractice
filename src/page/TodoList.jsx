@@ -11,7 +11,9 @@ const TodoList = () => {
     // Fetch todos from API or local storage
     const getTodos = async () => {
       try {
-        const response = await fetch("http://localhost:8080/todos");
+        const response = await fetch(
+          "https://todolistpractice.onrender.com/todos",
+        );
         const data = await response.json();
 
         if (data.status === "success") {
@@ -27,15 +29,18 @@ const TodoList = () => {
   const addTodo = async () => {
     if (inputValue.trim() === "") return;
 
-    const response = await fetch("http://Localhost:8080/todos", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    const response = await fetch(
+      "https://todolistpractice.onrender.com/todos",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: inputValue,
+        }),
       },
-      body: JSON.stringify({
-        title: inputValue,
-      }),
-    });
+    );
     const result = await response.json();
 
     setTodos(result.data);
@@ -46,15 +51,18 @@ const TodoList = () => {
     const targetTodo = todos.find((todo) => todo.id === id);
     if (!targetTodo) return;
 
-    const response = await fetch(`http://localhost:8080/todos/${id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
+    const response = await fetch(
+      `https://todolistpractice.onrender.com/todos/${id}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          completed: !targetTodo.completed,
+        }),
       },
-      body: JSON.stringify({
-        completed: !targetTodo.completed,
-      }),
-    });
+    );
     const data = await response.json();
 
     if (data.status === "success") {
@@ -64,15 +72,18 @@ const TodoList = () => {
 
   const patchTodo = async (id) => {
     if (editingValue.trim() === "") return;
-    const response = await fetch(`http://localhost:8080/todos/${id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
+    const response = await fetch(
+      `https://todolistpractice.onrender.com/todos/${id}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: editingValue,
+        }),
       },
-      body: JSON.stringify({
-        title: editingValue,
-      }),
-    });
+    );
     const data = await response.json();
     if (data.status === "success") {
       setTodos(data.data);
@@ -82,9 +93,12 @@ const TodoList = () => {
   };
 
   const deleteTodo = async (id) => {
-    const response = await fetch(`http://localhost:8080/todos/${id}`, {
-      method: "DELETE",
-    });
+    const response = await fetch(
+      `https://todolistpractice.onrender.com/todos/${id}`,
+      {
+        method: "DELETE",
+      },
+    );
     const data = await response.json();
     if (data.status === "success") {
       setTodos(data.data);
@@ -92,9 +106,12 @@ const TodoList = () => {
   };
 
   const clearAll = async () => {
-    const response = await fetch("http://localhost:8080/todos", {
-      method: "DELETE",
-    });
+    const response = await fetch(
+      "https://todolistpractice.onrender.com/todos",
+      {
+        method: "DELETE",
+      },
+    );
     const result = await response.json();
     setTodos(result.data);
   };
